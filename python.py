@@ -30,4 +30,6 @@ while g_ON == True:
     rect.clamp_ip(surfrect)
   surface.fill((255, 255, 255), rect)
   pygame.display.flip()
-    
+
+  while touched:
+    pg.mouse.get_rel()
