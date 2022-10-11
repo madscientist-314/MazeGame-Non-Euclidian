@@ -1,3 +1,5 @@
+from email.mime import image
+from json import load
 import sys
 import os
 from turtle import speed
@@ -28,11 +30,38 @@ rect = pg.Rect(0,0,32,32)
 rect.center = (size[0] / 2, size[1] / 2)
 
 playerspeed = 32
+#must change rect size as well - L 27
+tilesize = 32 * 32
+gmt = True
+
+empty = pg.image.load('white.png')
+wall = pg.image.load('black.png')       
+goal = pg.image.load('green.jpg')
 
 while g_ON:
+    if gmt:
+        #level tutorial
+        mw = 8 * tilesize
+        mh = 8 * tilesize
+        tiles = [empty, wall, goal]
+        mazetut = [
+            [1,1,1,1,1,1,1,1], #1
+            [1,0,0,0,1,2,0,1], #2
+            [1,0,1,0,1,1,0,1], #3
+            [1,0,1,0,0,0,0,1], #4
+            [1,0,1,0,1,1,0,1], #5 
+            [1,0,1,0,1,0,0,1], #6
+            [1,1,0,0,0,0,1,1], #7
+            [1,1,1,1,1,1,1,1], #8
+            ]
+        for row in range(len(mazetut)):
+            for column in range(len(mazetut[row])):
+                x = column * tilesize
+                y = row * tilesize
+                tile = tiles[mazetut[row][column]]
+                screen.blit(tile, (x, y))
     clock.tick(60)
     screen.fill((0, 0, 0))
-    
     for ev in pg.event.get():
         if ev.type == QUIT:
             pg.quit()
@@ -45,7 +74,11 @@ while g_ON:
               rect = pg.Rect.move(rect, 0, -playerspeed)
             if ev.key == pg.K_DOWN or ev.key == pg.K_s:
               rect = pg.Rect.move(rect, 0, playerspeed)
-    
+        if tile == 'empty':
+            rect.x = column * tilesize
+            rect.y = row * tilesize
+        elif tile == 'goal':
+            print("Well done")
     screen.fill((255, 255, 255), rect)
     pg.display.flip()
 pg.quit()
