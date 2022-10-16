@@ -31,14 +31,14 @@ rect.center = (size[0] / 2, size[1] / 2)
 
 playerspeed = 32
 #must change rect size as well - L 27
-tilesize = 32 * 32
+tilesize = 32
 gmt = True
 
 empty = pg.image.load('white.png')
 wall = pg.image.load('black.png')       
 goal = pg.image.load('green.jpg')
 clock.tick(60)
-screen.fill((0, 0, 0))
+screen.fill((255, 255, 255))
 
 while g_ON:
     #tutorial level
@@ -46,7 +46,8 @@ while g_ON:
         #width and hight of maze
         mw = 8 * tilesize
         mh = 8 * tilesize
-        
+        x_offset = size[0] / 2 - 144
+        y_offset = size[1] / 2 - 144
         mazetut = [
             [1,1,1,1,1,1,1,1], #1
             [1,0,0,0,1,2,0,1], #2
@@ -59,8 +60,8 @@ while g_ON:
             ]
         for row in range(len(mazetut)):
             for column in range(len(mazetut[row])):
-                x = column * tilesize
-                y = row * tilesize
+                x = column * tilesize + x_offset
+                y = row * tilesize + y_offset
                 if mazetut[row][column] == 1:
                     screen.blit(wall, (x,y))
                 elif mazetut[row][column] == 2:
@@ -80,13 +81,7 @@ while g_ON:
               rect = pg.Rect.move(rect, 0, -playerspeed)
             if ev.key == pg.K_DOWN or ev.key == pg.K_s:
               rect = pg.Rect.move(rect, 0, playerspeed)
-              
-        if mazetut[row][column] == 0:
-            rect.x = column * tilesize
-            rect.y = row * tilesize
-        elif mazetut[row][column] == 2:
-            print("Well done")
             
-    screen.fill((255, 255, 255), rect)
+    screen.fill((255, 172, 0), rect)
     pg.display.flip()
 pg.quit()
